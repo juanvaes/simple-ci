@@ -12,10 +12,9 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      - checkout
       - run:
           name: "save hello world"
-          command: echo "hello world" > output.txt
+          command: echo "hello world" > ~/output.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -28,7 +27,7 @@ jobs:
           at: ~/
       - run:
           name: "print output.txt"
-          command: cat output.txt
+          command: cat ~/output.txt
   say-world:
     docker:
       - image: circleci/node:13.8.0
