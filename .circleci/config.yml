@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Backend infra
           command: |
-            aws cloudformation deploy --template-file /../cloudformation/template.yml --stack-name my-stack
+            aws --profile udacitycf cloudformation deploy --template-file template.yml --stack-name my-stack
 
   save-hello-world-output:
     # Specify the execution environment.
