@@ -9,6 +9,16 @@ commands:
     steps:
       - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
+  create-infra:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Backend infra
+          command: |
+            aws cloudformation deploy --template-file /cloudformation/template.yml --stack-name my-stack
+
   save-hello-world-output:
     # Specify the execution environment.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -25,6 +35,7 @@ jobs:
           root: ~/
           paths:
             - output.txt
+
   print-output-file:
     docker:
       - image: circleci/node:13.8.0
@@ -34,6 +45,7 @@ jobs:
       - run:
           name: "print output.txt"
           command: cat ~/output.txt
+
   say-world:
     docker:
       - image: circleci/node:13.8.0
@@ -56,3 +68,4 @@ workflows:
       - print-output-file:
           requires:
             - save-hello-world-output
+      - create-infra
